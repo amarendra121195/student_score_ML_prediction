@@ -1,6 +1,9 @@
 import os
+import pandas as pd
+import numpy as np
 import pickle
 import streamlit as st
+# from scikit-learn.preprocessing import LabelEncoder, StandardScaler,le 
 
 @st.cache_resource
 def load_model():
@@ -17,9 +20,9 @@ def load_model():
 
     return model, scaler, le
 
-def preprocesssing_input_data(data, scaler, le):
-    data['Extracurricular Activities']= le.transform([data['Extracurricular Activities']])[0]
-    df = pd.DataFrame([data]) # convert the data into dataframe
+def preprocessing_input_data(data, scaler, le):
+    data['Extracurricular Activities'] = le.transform([data['Extracurricular Activities']])[0]
+    df = pd.DataFrame([data])
     df_transformed = scaler.transform(df)
     return df_transformed
 
