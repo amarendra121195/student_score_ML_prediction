@@ -26,9 +26,10 @@ def preprocessing_input_data(data, scaler, le):
     df_transformed = scaler.transform(df)
     return df_transformed
 
+
 def predict_data(data):
-    model,scaler,le = load_model()
-    processed_data = preprocesssing_input_data(data,scaler,le)
+    model, scaler, le = load_model()
+    processed_data = preprocessing_input_data(data, scaler, le)
     prediction = model.predict(processed_data)
     return prediction
 
