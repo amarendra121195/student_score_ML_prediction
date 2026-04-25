@@ -1,14 +1,21 @@
-import streamlit as st 
-import pandas as pd
-import numpy as np
+import os
 import pickle
-from sklearn.preprocessing import StandardScaler,LabelEncoder
+import streamlit as st
 
-
+@st.cache_resource
 def load_model():
-    with  open("student_lr_final_model.pkl",'rb') as file:
-        model,scaler,le=pickle.load(file) # waht ever load in file , it will be stored in model,scaler,le variable and we can use it for prediction
-    return model,scaler,le
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(BASE_DIR, "student_lr_final_model.pkl")# waht ever load in file , it will be stored in model,scaler,le variable and we can use it for prediction
+
+    if not os.path.exists(model_path):
+        st.error(f"Model file not found at: {model_path}")
+        st.write("Available files:", os.listdir(BASE_DIR))
+        return None, None, None
+
+    with open(model_path, 'rb') as file:
+        model, scaler, le = pickle.load(file)
+
+    return model, scaler, le
 
 def preprocesssing_input_data(data, scaler, le):
     data['Extracurricular Activities']= le.transform([data['Extracurricular Activities']])[0]
